@@ -1,0 +1,8 @@
+c:\users\svf\documents\visual studio 2013\Projects\CSharp_Net-module1_2_1–lab\CSharp_Net-module1_2_1–lab\bin\Debug\CSharp_Net-module1_2_1–lab.exe.config
+D:\DreamHunter_Project\2\2.1\CSharp_Net-module1_2_1-lab\CSharp_Net-module1_2_1-lab\CSharp_Net-module1_2_1-lab\bin\Debug\CSharp_Net-module1_2_1–lab.exe.config
+G:\Net_Project\2\2\2.1\CSharp_Net-module1_2_1-lab\CSharp_Net-module1_2_1-lab\CSharp_Net-module1_2_1-lab\bin\Debug\CSharp_Net-module1_2_1–lab.exe.config
+G:\Net_Project\2\2\2.1\CSharp_Net-module1_2_1-lab\CSharp_Net-module1_2_1-lab\CSharp_Net-module1_2_1-lab\bin\Debug\CSharp_Net-module1_2_1–lab.exe
+G:\Net_Project\2\2\2.1\CSharp_Net-module1_2_1-lab\CSharp_Net-module1_2_1-lab\CSharp_Net-module1_2_1-lab\bin\Debug\CSharp_Net-module1_2_1–lab.pdb
+G:\Net_Project\2\2\2.1\CSharp_Net-module1_2_1-lab\CSharp_Net-module1_2_1-lab\CSharp_Net-module1_2_1-lab\obj\Debug\CSharp_Net-module1_2_1-lab.csprojResolveAssemblyReference.cache
+G:\Net_Project\2\2\2.1\CSharp_Net-module1_2_1-lab\CSharp_Net-module1_2_1-lab\CSharp_Net-module1_2_1-lab\obj\Debug\CSharp_Net-module1_2_1–lab.exe
+G:\Net_Project\2\2\2.1\CSharp_Net-module1_2_1-lab\CSharp_Net-module1_2_1-lab\CSharp_Net-module1_2_1-lab\obj\Debug\CSharp_Net-module1_2_1–lab.pdb
