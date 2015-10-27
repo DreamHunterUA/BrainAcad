@@ -1,0 +1,2 @@
+D:\DreamHunter_Project\AirportSollution\AirportPanel\bin\Debug\AirportPanel.exe.config
+G:\Net_Project\AirportSollution\AirportSollution\AirportPanel\bin\Debug\AirportPanel.exe.config
