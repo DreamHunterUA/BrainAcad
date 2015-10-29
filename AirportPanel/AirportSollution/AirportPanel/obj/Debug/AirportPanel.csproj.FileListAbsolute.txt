@@ -1,2 +1,8 @@
 D:\DreamHunter_Project\AirportSollution\AirportPanel\bin\Debug\AirportPanel.exe.config
 G:\Net_Project\AirportSollution\AirportSollution\AirportPanel\bin\Debug\AirportPanel.exe.config
+G:\Net_Project\Git\BrainAcad\AirportPanel\AirportSollution\AirportPanel\bin\Debug\AirportPanel.exe.config
+G:\Net_Project\Git\BrainAcad\AirportPanel\AirportSollution\AirportPanel\bin\Debug\AirportPanel.exe
+G:\Net_Project\Git\BrainAcad\AirportPanel\AirportSollution\AirportPanel\bin\Debug\AirportPanel.pdb
+G:\Net_Project\Git\BrainAcad\AirportPanel\AirportSollution\AirportPanel\obj\Debug\AirportPanel.csprojResolveAssemblyReference.cache
+G:\Net_Project\Git\BrainAcad\AirportPanel\AirportSollution\AirportPanel\obj\Debug\AirportPanel.exe
+G:\Net_Project\Git\BrainAcad\AirportPanel\AirportSollution\AirportPanel\obj\Debug\AirportPanel.pdb

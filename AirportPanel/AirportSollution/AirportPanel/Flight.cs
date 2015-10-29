@@ -9,12 +9,13 @@ namespace AirportPanel
     public struct Flight
     {
 
-        public int flightNumber;
-        public string city;
-        public string airline;
-        public int terminal;
-        public FlightStatus flightStatus;
-        public string gate;
+        public int FlightNumber;
+        public string City;
+        public string Airline;
+        public string Terminal;
+        public FlightStatus FlightStatus;
+        public int Gate;
+        public DateTime Date;
 
         private Dictionary<FlightStatus, string> FligthStatusDictionary
         {
@@ -39,15 +40,16 @@ namespace AirportPanel
         public override string ToString()
         {
             string currentStatus;
-            if (!FligthStatusDictionary.TryGetValue(flightStatus,out currentStatus))
+            if (!FligthStatusDictionary.TryGetValue(FlightStatus,out currentStatus))
                 currentStatus = "Unknown";
             var sb = new StringBuilder();
-            sb.AppendLine(string.Format("Flight number - {0}", flightNumber));
-            sb.AppendLine(string.Format("City - {0}", city));
-            sb.AppendLine(string.Format("Airline - {0}", airline));
-            sb.AppendLine(string.Format("Terminal - {0}", terminal));
-            sb.AppendLine(string.Format("Status - {0}", currentStatus));
-            sb.AppendLine(string.Format("Gate - {0}", gate));
+            sb.AppendLine(String.Format("Flight number - {0}", FlightNumber));
+            sb.AppendLine(String.Format("Date - {0}", Date));
+            sb.AppendLine(String.Format("City - {0}", City));
+            sb.AppendLine(String.Format("Airline - {0}", Airline));
+            sb.AppendLine(String.Format("Terminal - {0}", Terminal));
+            sb.AppendLine(String.Format("Status - {0}", currentStatus));
+            sb.AppendLine(String.Format("Gate - {0}", Gate));
             
             return sb.ToString();
         }

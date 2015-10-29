@@ -9,6 +9,8 @@ namespace AirportPanel
     public enum OperationsEnum
     {
         ViewAll,
+        ViewArrivals,
+        ViewDepartures,
         Add,
         Edit,
         Delete,
