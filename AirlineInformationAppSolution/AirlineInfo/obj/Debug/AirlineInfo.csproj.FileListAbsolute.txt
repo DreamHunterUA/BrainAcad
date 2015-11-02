@@ -1,0 +1,5 @@
+G:\Net_Project\Git\BrainAcad\AirlineInformationAppSolution\AirlineInfo\bin\Debug\AirlineInfo.dll
+G:\Net_Project\Git\BrainAcad\AirlineInformationAppSolution\AirlineInfo\bin\Debug\AirlineInfo.pdb
+G:\Net_Project\Git\BrainAcad\AirlineInformationAppSolution\AirlineInfo\obj\Debug\AirlineInfo.csprojResolveAssemblyReference.cache
+G:\Net_Project\Git\BrainAcad\AirlineInformationAppSolution\AirlineInfo\obj\Debug\AirlineInfo.dll
+G:\Net_Project\Git\BrainAcad\AirlineInformationAppSolution\AirlineInfo\obj\Debug\AirlineInfo.pdb

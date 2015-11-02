@@ -17,26 +17,22 @@ namespace AirportPanel
         public int Gate;
         public DateTime Date;
 
-        private Dictionary<FlightStatus, string> FligthStatusDictionary
+        
+
+        private Dictionary<FlightStatus, string> FligthStatusDictionary => new Dictionary<FlightStatus, string>
         {
-            get
-            {
-                return new Dictionary<FlightStatus, string>
-                    {
-                        {FlightStatus.arrived,"Arrived" },
-                        {FlightStatus.canceled,"Canceled" },
-                        {FlightStatus.checkIn ,"CheckIn" },
-                        {FlightStatus.delayed,"Delayed" },
-                        {FlightStatus.departedAt,"Departed at" },
-                        {FlightStatus.expectedAt,"Expected at" },
-                        {FlightStatus.gateClosed,"Gate closed" },
-                        {FlightStatus.inFlight,"In fligth" },
-                        {FlightStatus.unknown,"Unknown" }
-                    };
-            }
+            {FlightStatus.arrived,"Arrived" },
+            {FlightStatus.canceled,"Canceled" },
+            {FlightStatus.checkIn ,"CheckIn" },
+            {FlightStatus.delayed,"Delayed" },
+            {FlightStatus.departedAt,"Departed at" },
+            {FlightStatus.expectedAt,"Expected at" },
+            {FlightStatus.gateClosed,"Gate closed" },
+            {FlightStatus.inFlight,"In fligth" },
+            {FlightStatus.unknown,"Unknown" }
+        };
 
-        }
-
+        /// <exception cref="ArgumentOutOfRangeException">При увеличении значения данного экземпляра будет превышено значение <see cref="P:System.Text.StringBuilder.MaxCapacity" />. </exception>
         public override string ToString()
         {
             string currentStatus;

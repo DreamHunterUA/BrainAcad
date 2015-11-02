@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 
 namespace AirportPanel
@@ -8,7 +9,15 @@ namespace AirportPanel
     {
         private static void Main(string[] args)
         {
-           
+
+            decimal moneyvalue = 1921.39m;
+            string html = String.Format(CultureInfo.CreateSpecificCulture("en-US"), "Order Total: {0:C}", moneyvalue);
+            Console.WriteLine(html);
+
+
+
+
+
             var flightsList = new Flight[1000];
             AddSomeFlight(flightsList);
 
@@ -45,7 +54,6 @@ namespace AirportPanel
                     Console.WriteLine("Please enter correct number of command printed below");
                     continue;
                 }
-//                var command = Int32.Parse(Console.ReadLine());
 
                 switch ((OperationsEnum) command)
                 {
@@ -66,10 +74,11 @@ namespace AirportPanel
                         break;
                     case OperationsEnum.Add:
                     {
-                        AddFlight(statusDictionary);
+                        AddFlight(statusDictionary, flightsList);
                     }
                         break;
                     case OperationsEnum.Edit:
+                        EditFlight(statusDictionary, flightsList);
                         break;
                     case OperationsEnum.Delete:
                     {
@@ -79,16 +88,16 @@ namespace AirportPanel
                     case OperationsEnum.Info:
                     {
                         GetFlightInfo(flightsList);
-                    }                      
+                    }
                         break;
                     case OperationsEnum.Search:
                     {
-                        Console.WriteLine();
+                        SearchFlight(statusDictionary, flightsList);
                     }
 
                         break;
                     case OperationsEnum.EmergencyInfo:
-                        Console.WriteLine("evacuation");
+                        Console.WriteLine("Evacuation");
                         break;
                     case OperationsEnum.Exit:
                         return;
@@ -96,30 +105,191 @@ namespace AirportPanel
                         Console.WriteLine("Please choose number of command printed above");
                         break;
                 }
+                Console.WriteLine("Please enter any key to continue");
+                Console.ReadLine();
             }
         }
 
-        private static void AddFlight(Dictionary<FlightStatus, string> statusDictionary)
+        private static void SearchFlight(Dictionary<FlightStatus, string> statusDictionary, Flight[] flightsList)
         {
-            Console.WriteLine(
-                "Please enter the date of the flight.\n It must be a string like YYYY/MM/DD HH/MM/SS");
-            var dateOfFlight = Console.ReadLine();
+            Console.WriteLine("Please choose number of command printed below");
+            Console.WriteLine("0 - Search by flight number");
+            Console.WriteLine("1 - Search by date");
+            Console.WriteLine("2 - Search by city");
+            Console.WriteLine("3 - Search of the flight which is the nearest (1 hour)\n to the specified time");
+            Console.WriteLine("4 - Return to main menu");
 
-
-            DateTime dateTime;
-            if (DateTime.TryParse(dateOfFlight, out dateTime))
+            int command;
+            while (!int.TryParse(Console.ReadLine(), out command))
             {
-                Console.WriteLine(dateTime);
+                Console.WriteLine("Please enter correct number of command printed below");
+            }
+            switch (command)
+            {
+                case 0:
+                {
+                    int flightNumber;
+
+                    Console.WriteLine("Please enter flight number to search");
+                    if (!int.TryParse(Console.ReadLine(), out flightNumber))
+                    {
+                        Console.WriteLine("Wrong input value! Please enter  flight number");
+                    }
+                    var flight = flightsList.FirstOrDefault(x => x.FlightNumber == flightNumber);
+                    Console.WriteLine(flight.ToString());
+                }
+                    break;
+
+                case 1:
+                {
+                    Console.WriteLine("Please enter the date and time of the flight.");
+
+                    DateTime dateTime;
+                    while (!DateTime.TryParse(Console.ReadLine(), out dateTime))
+                    {
+                        Console.WriteLine(
+                            "Please enter correct  date and time of the flight.");
+                    }
+                    var flights = flightsList.Select(x => x.Date == dateTime);
+                    foreach (var flight in flights)
+                    {
+                        Console.WriteLine(flight.ToString());
+                    }
+                }
+                    break;
+
+                case 2:
+                {
+                    Console.WriteLine("Please enter city to search");
+                    var city = Console.ReadLine();
+                    var flights = flightsList.Select(x => x.City == city);
+                    foreach (var flight in flights)
+                    {
+                        Console.WriteLine(flight.ToString());
+                    }
+                }
+                    break;
+
+                case 3:
+                {
+                    var dt = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day,
+                        (DateTime.Now.Hour + 1), 0, 0);
+                    var flight =
+                        flightsList.FirstOrDefault(x =>
+                            (x.Date >= DateTime.Now) &
+                            (x.Date <= dt));
+
+                    if (flight.FlightStatus == FlightStatus.undefined)
+                    {
+                        Console.WriteLine("Please enter the date and time of the flight.");
+
+                        DateTime dateTime;
+                        while (!DateTime.TryParse(Console.ReadLine(), out dateTime))
+                        {
+                            Console.WriteLine(
+                                "Please enter correct  date and time of the flight.");
+                        }
+
+                        var customDate = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day,
+                            (dateTime.Hour + 1), 0, 0);
+                        var customFlights =
+                            flightsList.Where(x =>
+                                (x.Date >= dateTime) &
+                                (x.Date <= customDate)).Select(x => x);
+                        foreach (var customFlight in customFlights.Where(customFlight => customFlight.FlightStatus != FlightStatus.undefined))
+                        {
+                            Console.WriteLine(customFlight.ToString());
+                        }
+                    }
+                    else
+                        {
+                            Console.WriteLine(flight.ToString());
+                        }
+                }
+                    break;
+
+                case 4:
+                    return;
+                default:
+                    return;
+                    ;
+            }
+        }
+
+        private static void EditFlight(Dictionary<FlightStatus, string> statusDictionary, Flight[] flightsList)
+        {
+            Console.WriteLine("You are going to edit a flight.");
+            int flightNumber;
+
+            Console.WriteLine("Please enter flight number");
+            if (!int.TryParse(Console.ReadLine(), out flightNumber))
+            {
+                Console.WriteLine("Wrong input value! Please enter  flight number");
+            }
+            var flightToUpdate = flightsList.FirstOrDefault(x => x.FlightNumber == flightNumber);
+            Console.WriteLine("Below current info about flight");
+            Console.WriteLine(flightToUpdate.ToString());
+
+
+            Console.WriteLine("Please enter new value for airline");
+            var airline = Console.ReadLine();
+            Console.WriteLine("Please enter new value for city");
+            var city = Console.ReadLine();
+
+            Console.WriteLine("Please enter new value for terminal");
+            var terminal = Console.ReadLine();
+
+            Console.WriteLine("Please enter new value for  gate");
+            int gate;
+            while (!int.TryParse(Console.ReadLine(), out gate))
+            {
+                Console.WriteLine("Wrong input value! Please enter  the gate");
             }
 
 
+            Console.WriteLine("Please choose the current status of the flight");
+            foreach (var item in statusDictionary.OrderBy(x => (int) x.Key))
+            {
+                Console.WriteLine("{0} - {1}", (int) item.Key, item.Value);
+            }
+            FlightStatus status;
+            while (!Enum.TryParse(Console.ReadLine(), out status))
+            {
+                Console.WriteLine("Wrong input value! Please enter  the current status of the flight");
+            }
+
+            Console.WriteLine(
+                "Please enter the date and time of the flight.");
+
+            DateTime dateTime;
+            while (!DateTime.TryParse(Console.ReadLine(), out dateTime))
+            {
+                Console.WriteLine("Please enter correct  date and time of the flight.");
+            }
+            for (var i = 0; i < flightsList.Length; i++)
+            {
+                if (flightsList[i].FlightNumber == flightNumber)
+                {
+                    flightsList[i].FlightStatus = status;
+                    flightsList[i].Gate = gate;
+                    flightsList[i].Airline = airline;
+                    flightsList[i].City = city;
+                    flightsList[i].Terminal = terminal;
+                    flightsList[i].Date = dateTime;
+                    break;
+                }
+            }
+        }
+
+        private static void AddFlight(Dictionary<FlightStatus, string> statusDictionary, Flight[] flightsList)
+        {
             Console.WriteLine("You are going to add new flight.");
             int flightNumber;
 
             Console.WriteLine("Please enter flight number");
             if (!int.TryParse(Console.ReadLine(), out flightNumber))
             {
-                Console.WriteLine("Wrong inprut value! Please enter  flight number");
+                Console.WriteLine("Wrong input value! Please enter  flight number");
             }
             Console.WriteLine("Please enter airline");
             var airline = Console.ReadLine();
@@ -128,67 +298,88 @@ namespace AirportPanel
 
             Console.WriteLine("Please enter terminal");
             var terminal = Console.ReadLine();
+
+            Console.WriteLine("Please enter the gate");
+            int gate;
+            while (!int.TryParse(Console.ReadLine(), out gate))
+            {
+                Console.WriteLine("Wrong input value! Please enter  the gate");
+            }
+
+
             Console.WriteLine("Please choose the current status of the flight");
             foreach (var item in statusDictionary.OrderBy(x => (int) x.Key))
             {
                 Console.WriteLine("{0} - {1}", (int) item.Key, item.Value);
             }
-            int status;
-            if (!int.TryParse(Console.ReadLine(), out status))
+            FlightStatus status;
+            while (!Enum.TryParse(Console.ReadLine(), out status))
             {
-                Console.WriteLine("Wrong inprut value! Please enter  the current status of the flight");
+                Console.WriteLine("Wrong input value! Please enter  the current status of the flight");
             }
-            else
+
+
+            Console.WriteLine(
+                "Please enter the date and time of the flight.");
+
+            DateTime dateTime;
+            while (!DateTime.TryParse(Console.ReadLine(), out dateTime))
             {
-                var value = "";
-                if (!statusDictionary.TryGetValue((FlightStatus) status, out value))
+                Console.WriteLine(
+                    "Please enter correct  date and time of the flight.");
+            }
+            var itemToUpdate = flightsList.FirstOrDefault(x => x.FlightStatus == FlightStatus.undefined);
+            for (var i = 0; i < flightsList.Length; i++)
+            {
+                if (flightsList[i].FlightStatus == FlightStatus.undefined)
                 {
-                    Console.WriteLine("Wrong input value! Please enter  the current status of the flight");
+                    flightsList[i].FlightStatus = status;
+                    flightsList[i].FlightNumber = flightNumber;
+                    flightsList[i].Gate = gate;
+                    flightsList[i].Airline = airline;
+                    flightsList[i].City = city;
+                    flightsList[i].Terminal = terminal;
+                    flightsList[i].Date = dateTime;
+                    break;
                 }
             }
-            var flight = new Flight
-            {
-                Airline = airline,
-                City = city,
-                FlightNumber = flightNumber,
-                FlightStatus = (FlightStatus) status,
-                Terminal = terminal
-            };
         }
 
-        private static void PrintDeparturesFlights(Flight[] FlightsList)
+        private static void PrintDeparturesFlights(IEnumerable<Flight> flightsList)
         {
             Console.WriteLine("List of departures flights");
             foreach (
                 var flight in
-                    FlightsList.Where(x => x.FlightStatus == FlightStatus.departedAt).Select(x => x))
+                    flightsList.Where(x => x.FlightStatus == FlightStatus.departedAt).Select(x => x))
             {
                 Console.WriteLine(flight.ToString());
             }
         }
 
-        private static void PrintArrivalFlights(Flight[] FlightsList)
+        private static void PrintArrivalFlights(IEnumerable<Flight> flightsList)
         {
             Console.WriteLine("List of arrivals flights");
             foreach (
-                var flight in FlightsList.Where(x => x.FlightStatus == FlightStatus.arrived).Select(x => x))
+                var flight in flightsList.Where(x => x.FlightStatus == FlightStatus.arrived).Select(x => x))
             {
                 Console.WriteLine(flight.ToString());
             }
         }
 
-        private static void PrintAllFlights(Flight[] FlightsList)
+        private static void PrintAllFlights(IEnumerable<Flight> flightsList)
         {
             Console.WriteLine("All flights");
-            foreach (var flight in FlightsList.OrderBy(x => x.FlightStatus))
+            foreach (
+                var flight in
+                    flightsList.Where(x => x.FlightStatus != FlightStatus.undefined).OrderBy(x => x.FlightStatus))
             {
                 Console.WriteLine(flight.ToString());
             }
         }
 
-        private static void AddSomeFlight(Flight[] FlightsList)
+        private static void AddSomeFlight(Flight[] flightsList)
         {
-            FlightsList[0] = new Flight
+            flightsList[0] = new Flight
             {
                 Airline = "MAU",
                 City = "Kharkov",
@@ -198,7 +389,7 @@ namespace AirportPanel
                 Terminal = "A",
                 Date = new DateTime(2015, 10, 29, 14, 00, 00)
             };
-            FlightsList[1] = new Flight
+            flightsList[1] = new Flight
             {
                 Airline = "UA",
                 City = "New York",
@@ -208,7 +399,7 @@ namespace AirportPanel
                 Terminal = "D",
                 Date = new DateTime(2015, 10, 30, 11, 00, 00)
             };
-            FlightsList[2] = new Flight
+            flightsList[2] = new Flight
             {
                 Airline = "UA",
                 City = "Lviv",
@@ -218,7 +409,7 @@ namespace AirportPanel
                 Terminal = "C",
                 Date = new DateTime(2015, 10, 30, 09, 00, 00)
             };
-            FlightsList[3] = new Flight
+            flightsList[3] = new Flight
             {
                 Airline = "KLM",
                 City = "Berlin",
@@ -228,7 +419,7 @@ namespace AirportPanel
                 Terminal = "F",
                 Date = new DateTime(2015, 10, 30, 11, 30, 00)
             };
-            FlightsList[4] = new Flight
+            flightsList[4] = new Flight
             {
                 Airline = "KLM",
                 City = "Amsterdam",
@@ -239,7 +430,7 @@ namespace AirportPanel
                 Date = new DateTime(2015, 10, 30, 11, 30, 00)
             };
 
-            FlightsList[5] = new Flight
+            flightsList[5] = new Flight
             {
                 Airline = "KLM",
                 City = "Paris",
@@ -250,7 +441,7 @@ namespace AirportPanel
                 Date = new DateTime(2015, 10, 29, 11, 30, 00)
             };
 
-            FlightsList[6] = new Flight
+            flightsList[6] = new Flight
             {
                 Airline = "KLM",
                 City = "San Francisco",
@@ -260,7 +451,7 @@ namespace AirportPanel
                 Terminal = "B",
                 Date = new DateTime(2015, 10, 29, 09, 30, 00)
             };
-            FlightsList[7] = new Flight
+            flightsList[7] = new Flight
             {
                 Airline = "KLM",
                 City = "Berlin",
@@ -272,7 +463,7 @@ namespace AirportPanel
             };
         }
 
-        private static void GetFlightInfo(Flight[] FlightsList)
+        private static void GetFlightInfo(IEnumerable<Flight> flightsList)
         {
             Console.WriteLine("Please enter flight number to get info");
             int num;
@@ -280,11 +471,11 @@ namespace AirportPanel
             {
                 Console.WriteLine("Please enter flight number to get info");
             }
-            var item = FlightsList.Where(x => x.FlightNumber == num).Select(x => x).FirstOrDefault();
+            var item = flightsList.FirstOrDefault(x => x.FlightNumber == num);
             Console.WriteLine(item.ToString());
         }
 
-        private static void DeleteFlight(Flight[] FlightsList)
+        private static void DeleteFlight(IEnumerable<Flight> flightsList)
         {
             Console.WriteLine("Please enter flight number to delete");
             int num;
@@ -292,7 +483,7 @@ namespace AirportPanel
             {
                 Console.WriteLine("Please enter flight number to delete");
             }
-            var item = FlightsList.Where(x => x.FlightNumber == num).Select(x => x).FirstOrDefault();
+            var item = flightsList.FirstOrDefault(x => x.FlightNumber == num);
             item.FlightStatus = FlightStatus.canceled;
             Console.WriteLine(item.ToString());
         }
